@@ -93,7 +93,7 @@ class _LoginLandingViewState extends State<LoginLandingView> {
                             context,
                             // Login <-> Home
                             MaterialPageRoute(
-                                builder: (builder) => const HomeView()));
+                                builder: (builder) => HomeView()));
                       },
                       child: const Text('Change'))
                 ],
@@ -105,8 +105,7 @@ class _LoginLandingViewState extends State<LoginLandingView> {
                   Navigator.push(
                       context,
                       // Login <-> Home
-                      MaterialPageRoute(
-                          builder: (builder) => const HomeView()));
+                      MaterialPageRoute(builder: (builder) => HomeView()));
                 },
                 color: Globalcolors.mainColor,
                 shape: RoundedRectangleBorder(
