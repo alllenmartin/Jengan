@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jengana/utils/globalColors.dart';
+import 'package:jengana/utils/submit_button.dart';
 
 class HomeLandingView extends StatefulWidget {
   const HomeLandingView({super.key});
@@ -23,6 +24,15 @@ class _HomeLandingViewState extends State<HomeLandingView> {
               print('Drawer');
             },
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                bottomSheet(context);
+              },
+              icon: Icon(Icons.person),
+              color: Globalcolors.otherColor,
+            ),
+          ],
           title: Text('Home', style: TextStyle(color: Globalcolors.otherColor)),
         ),
         body: Container(
@@ -119,4 +129,72 @@ class CustomCard extends StatelessWidget {
       ),
     );
   }
+}
+
+bottomSheet(context) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Color.fromARGB(0, 167, 94, 94),
+      builder: (context) => Container(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                    decoration: BoxDecoration(
+                      color: Globalcolors.otherColor,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25.0),
+                          topRight: Radius.circular(25.0)),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 50, horizontal: 10),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.star_border_purple500,
+                                color: Globalcolors.mainColor,
+                                size: 45,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomCard(
+                            title: 'Account Balance',
+                            iconData: Icons.account_balance,
+                            colorData: Colors.green,
+                          ),
+                          CustomCard(
+                            title: 'Account Statement',
+                            iconData: Icons.calendar_month,
+                            colorData: Colors.blue,
+                          ),
+                          CustomCard(
+                            title: 'Change PIN',
+                            iconData: Icons.key,
+                            colorData: Colors.grey,
+                          ),
+                          SizedBox(height: 20.0),
+                          Center(
+                            child: Submitbutton(
+                              onTap: () => Navigator.pop(context, true),
+                              btnColor: Globalcolors.mainColor,
+                              text: 'Cancel',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ));
 }

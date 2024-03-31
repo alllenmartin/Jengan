@@ -17,6 +17,15 @@ class _LoansViewState extends State<LoansView> {
             child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: Globalcolors.mainColor,
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: Globalcolors.otherColor,
+                    ),
+                    onPressed: () {
+                      print('Drawer');
+                    },
+                  ),
                   title: Text('Loans',
                       style: TextStyle(color: Globalcolors.otherColor)),
                 ),
@@ -66,7 +75,7 @@ class _LoansViewState extends State<LoansView> {
 
                       //Send Money
                       CustomCard(
-                        title: 'Loan Statment',
+                        title: 'Loan Statement',
                         iconData: Icons.calendar_month,
                         colorData: Colors.grey,
                       )
