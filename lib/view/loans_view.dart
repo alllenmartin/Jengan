@@ -23,7 +23,7 @@ class _LoansViewState extends State<LoansView> {
                       color: Globalcolors.otherColor,
                     ),
                     onPressed: () {
-                      print('Drawer');
+                      print('Drawer_');
                     },
                   ),
                   title: Text('Loans',
