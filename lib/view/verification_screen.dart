@@ -1,18 +1,71 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jengana/utils/globalColors.dart';
 import 'package:jengana/view/fade_in_down.dart';
 import 'package:jengana/view/login_view.dart';
 import 'package:otp_text_field/otp_field.dart';
+import 'package:pinput/pinput.dart';
+import 'package:http/http.dart' as http;
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+  final String phoneNo;
+  const VerificationScreen({required this.phoneNo});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
 }
 
 class _VerificationScreenState extends State<VerificationScreen> {
+  final pinController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final focusNode = FocusNode();
+
+  final apiUrl =
+      "https://09a8-196-216-84-197.ngrok-free.app/api/MemberApps/verifyotp";
+  String PhoneNumber = '0790087600';
+
+  Future<void> sendPostRequest() async {
+    var response = await http.post(
+        Uri.parse(apiUrl +
+            '?phoneNumber=' +
+            PhoneNumber +
+            '&otp=' +
+            pinController.text),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "phoneNumber": PhoneNumber,
+          "otp": pinController.text,
+        }));
+
+    print(
+        apiUrl + '?phoneNumber=' + PhoneNumber + '&otp=' + pinController.text);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+          context,
+          // Login <-> Home
+          MaterialPageRoute(builder: (builder) => const LoginView()));
+    } else if (response.statusCode == 404) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            content: Text('Phone number not found!')),
+      );
+    } else {
+      print(response.statusCode);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            content: Text('An error has occured')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,19 +107,42 @@ class _VerificationScreenState extends State<VerificationScreen> {
               const SizedBox(
                 height: 30,
               ),
-              OTPTextField(
-                width: MediaQuery.of(context).size.width,
-                length: 4,
-                obscureText: false,
-                style: const TextStyle(fontSize: 17),
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                outlineBorderRadius: 10,
+              Form(
+                key: formKey,
+                child: Pinput(
+                  focusNode: focusNode,
+                  controller: pinController,
+                  separatorBuilder: (index) => const SizedBox(width: 14),
+                  hapticFeedbackType: HapticFeedbackType.lightImpact,
+                  length: 4,
+                  obscureText: false,
+                  cursor: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 9),
+                        width: 22,
+                        height: 1,
+                        color: Globalcolors.mainColor,
+                      ),
+                    ],
+                  ),
+                  onCompleted: (pin) {
+                    debugPrint('onCompleted: $pin');
+                  },
+                  onChanged: (value) {
+                    debugPrint('onChanged: $value');
+                  },
+                ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 80),
               FadeInDown(
                   child: MaterialButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/');
+                  focusNode.unfocus();
+                  if (formKey.currentState!.validate()) {
+                    sendPostRequest();
+                  }
                 },
                 color: Colors.black,
                 shape: RoundedRectangleBorder(

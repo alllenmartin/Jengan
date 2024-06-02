@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jengana/utils/globalColors.dart';
 import 'package:jengana/utils/submit_button.dart';
+import 'package:ussd_advanced/ussd_advanced.dart';
 
 class HomeLandingView extends StatefulWidget {
   const HomeLandingView({super.key});
@@ -59,10 +60,12 @@ class _HomeLandingViewState extends State<HomeLandingView> {
               ),
 
               //Buy Airtime
-              CustomCard(
+              USSDCard(
                 title: 'Buy Airtime',
                 iconData: Icons.phone,
                 colorData: Colors.green,
+                funcData: () =>
+                    UssdAdvanced.sendUssd(code: '*334#', subscriptionId: 2),
               ),
               SizedBox(
                 height: 10,
@@ -197,4 +200,49 @@ bottomSheet(context) {
               ],
             ),
           ));
+}
+
+class USSDCard extends StatelessWidget {
+  final String title;
+  final IconData iconData;
+  final Color colorData;
+  final Function() funcData;
+
+  USSDCard(
+      {required this.title,
+      required this.iconData,
+      required this.colorData,
+      required this.funcData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          UssdAdvanced.sendUssd(code: '*334#', subscriptionId: 1);
+        },
+        child: SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                children: [
+                  Icon(
+                    iconData,
+                    size: 24,
+                    color: colorData,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(title),
+                ],
+              ),
+            )),
+      ),
+    );
+  }
 }

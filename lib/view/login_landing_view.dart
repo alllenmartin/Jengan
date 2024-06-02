@@ -3,7 +3,11 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jengana/utils/globalColors.dart';
 import 'package:jengana/view/fade_in_down.dart';
 import 'package:jengana/view/home_view.dart';
+import 'package:jengana/view/internal_fund_transfer.dart';
 import 'package:jengana/view/login_view.dart';
+import 'package:jengana/view/sendsms.dart';
+import 'package:jengana/view/transfer_view.dart';
+import 'package:jengana/view/verification_screen.dart';
 import 'package:otp_text_field/otp_field.dart';
 
 class LoginLandingView extends StatefulWidget {
@@ -93,7 +97,7 @@ class _LoginLandingViewState extends State<LoginLandingView> {
                             context,
                             // Login <-> Home
                             MaterialPageRoute(
-                                builder: (builder) => HomeView()));
+                                builder: (builder) => LoginView()));
                       },
                       child: const Text('Change'))
                 ],

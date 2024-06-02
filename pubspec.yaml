@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_termii:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -41,10 +42,23 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.0
   curved_labeled_navigation_bar: ^2.0.2
+  select_field: ^1.1.0
+  ussd_service: ^0.1.1
+  sim_data: ^0.0.2
+  permission_handler: ^11.3.1
+  ussd_advanced: ^1.1.0
+  http: ^0.13.6
+  dropdown_button2: ^2.3.9
+  pinput: ^4.0.0
+
+
+
+ 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 flutter_icons:
